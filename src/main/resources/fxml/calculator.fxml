@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ozich.javafxspringboot.controller.CalculatorController">
+   <children>
+       <Button fx:id="button1" layoutX="${controller.layoutX}" layoutY="${controller.layoutY}" mnemonicParsing="false" prefHeight="${controller.prefHeight}" prefWidth="${controller.prefWidth}" text="${controller.string}" />
+   </children>
+</AnchorPane>

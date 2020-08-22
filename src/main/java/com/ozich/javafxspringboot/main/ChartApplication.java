@@ -3,6 +3,9 @@ package com.ozich.javafxspringboot.main;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.core.convert.support.DefaultConversionService;
+import org.springframework.format.support.DefaultFormattingConversionService;
+import org.springframework.format.support.FormattingConversionService;
 import org.springframework.stereotype.Component;
 
 import javafx.application.Application;
@@ -10,8 +13,8 @@ import javafx.application.Platform;
 import javafx.stage.Stage;
 
 import com.ozich.javafxspringboot.config.ApplicationConfig;
+import com.ozich.javafxspringboot.events.StageReadyEvent;
 
-@Component
 public class ChartApplication extends Application {
 
     private ConfigurableApplicationContext applicationContext;
@@ -32,13 +35,7 @@ public class ChartApplication extends Application {
         Platform.exit();
     }
 
-    public static class StageReadyEvent extends ApplicationEvent {
-        public StageReadyEvent(Stage stage) {
-            super(stage);
-        }
 
-        public Stage getStage() {
-            return ((Stage) getSource());
-        }
-    }
+
+
 }

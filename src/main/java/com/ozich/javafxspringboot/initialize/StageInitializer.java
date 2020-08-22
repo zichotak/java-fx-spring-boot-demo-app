@@ -1,37 +1,33 @@
 package com.ozich.javafxspringboot.initialize;
 
-import java.io.IOException;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
-import org.springframework.core.io.Resource;
-import org.springframework.stereotype.Component;
 
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import com.ozich.javafxspringboot.main.ChartApplication;
+import com.ozich.javafxspringboot.events.StageReadyEvent;
+import com.ozich.javafxspringboot.loader.SpringFxmlLoader;
 
+public class StageInitializer implements ApplicationListener<StageReadyEvent> {
 
-@Component
-public class StageInitializer implements ApplicationListener<ChartApplication.StageReadyEvent> {
+    @Value("${fxml.calculator.window.width}")
+    private double stageWidth;
 
-    @Value("${fxml.chart.resource}")
-    private Resource chartResource;
+    @Value("${fxml.calculator.window.height}")
+    private double stageHeight;
+
+    @Autowired
+    SpringFxmlLoader springFxmlLoader;
 
     @Override
-    public void onApplicationEvent(final ChartApplication.StageReadyEvent event) {
-        try {
-            Parent parent = new FXMLLoader(chartResource.getURL()).load();
+    public void onApplicationEvent(final StageReadyEvent event) {
+            Parent parent = (Parent)springFxmlLoader.load();
 
             Stage stage = event.getStage();
-            stage.setScene(new Scene(parent, 800, 600));
+            stage.setScene(new Scene(parent, stageWidth, stageHeight));
             stage.show();
-        } catch (IOException e) {
-            throw new RuntimeException("Url for chart not specified or corrupted.");
-        }
-
     }
 }
