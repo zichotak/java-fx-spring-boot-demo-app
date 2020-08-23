@@ -11,7 +11,6 @@
                   layoutY="${controller.propertyBinder.textFieldLayoutY}"
                   prefWidth="${controller.propertyBinder.textFieldPrefWidth}"
                   prefHeight="${controller.propertyBinder.textFieldPrefHeight}"
-                  text="5+3"
                   editable="false"/>
        <GridPane  fx:id="gridPane"
                   layoutX="${controller.propertyBinder.gridPaneLayoutX}"

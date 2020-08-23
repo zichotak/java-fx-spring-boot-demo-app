@@ -21,8 +21,8 @@ public class CalculatorController implements Initializable {
 
     private final Logger LOGGER = LoggerFactory.getLogger(CalculatorController.class);
 
-    private static final int BUTTON_ROWS = 4;
-    private static final int BUTTON_COLUMNS = 4;
+    private static final int NUMERIC_BUTTON_ROWS = 3;
+    private static final int NUMERIC_BUTTON_COLUMNS = 3;
 
     @Autowired
     private PropertyBinder propertyBinder;
@@ -48,23 +48,53 @@ public class CalculatorController implements Initializable {
     }
 
     private void addButtons() {
-
-        for (int row = 0; row < BUTTON_ROWS; row++) {
-            for (int column = 0; column < BUTTON_COLUMNS; column++) {
-                Button button = new Button(String.valueOf(3*row + column));
-                button.setPrefSize(75,75);
-                initButton(button);
-                gridPane.add(button, column, row);
-            }
-
-        }
+        addNumericButtons();
+        addOperatorButtons();
     }
 
-    private void initButton(Button button) {
+    private void addNumericButtons() {
+        for (int row = 0; row < NUMERIC_BUTTON_ROWS; row++) {
+            int reversedRow = NUMERIC_BUTTON_ROWS - row;
+
+            for (int column = 0; column < NUMERIC_BUTTON_COLUMNS; column++) {
+                int reversedColumn = NUMERIC_BUTTON_COLUMNS - column;
+                int buttonName = reversedRow*NUMERIC_BUTTON_COLUMNS - reversedColumn + 1;
+                addSimplebutton(String.valueOf(buttonName), column, row);
+            }
+        }
+        addSimplebutton("0", 1, 3);
+    }
+
+    private void addSimplebutton(String buttonName, int column, int row) {
+        Button button = createButton(buttonName);
+        initSimpleButton(button);
+        gridPane.add(button, column, row);
+    }
+
+    private Button createButton(String buttonName) {
+        Button button = new Button(buttonName);
+        button.setPrefSize(propertyBinder.getButtonPrefWidth(),propertyBinder.getButtonPrefHeight());
+        return button;
+    }
+
+    private void initSimpleButton(Button button) {
         button.setOnAction(actionEvent -> {
             LOGGER.info("Button number {} clicked", button.getText());
+            textField.setText(textField.getText() + button.getText());
         });
     }
+
+
+    private void addOperatorButtons() {
+        addSimplebutton("/", 3, 0);
+        addSimplebutton("*", 3, 1);
+        addSimplebutton("-", 3, 2);
+        addSimplebutton("+", 3, 3);
+        addSimplebutton("+/-", 0, 3);
+        addSimplebutton(".", 2, 3);
+    }
+
+
 
     public PropertyBinder getPropertyBinder() {
         return propertyBinder;
