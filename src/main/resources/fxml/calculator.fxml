@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
-
-<AnchorPane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ozich.javafxspringboot.controller.CalculatorController">
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
+<AnchorPane fx:id="anchorPane" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ozich.javafxspringboot.controller.CalculatorController"
+            maxHeight="-Infinity" maxWidth="-Infinity" >
    <children>
-       <Button fx:id="button1" layoutX="${controller.layoutX}" layoutY="${controller.layoutY}" mnemonicParsing="false" prefHeight="${controller.prefHeight}" prefWidth="${controller.prefWidth}" text="${controller.string}" />
+       <TextField fx:id="textField"
+                  layoutX="${controller.propertyBinder.textFieldLayoutX}"
+                  layoutY="${controller.propertyBinder.textFieldLayoutY}"
+                  prefWidth="${controller.propertyBinder.textFieldPrefWidth}"
+                  prefHeight="${controller.propertyBinder.textFieldPrefHeight}"
+                  text="5+3"
+                  editable="false"/>
+       <GridPane  fx:id="gridPane"
+                  layoutX="${controller.propertyBinder.gridPaneLayoutX}"
+                  layoutY="${controller.propertyBinder.gridPaneLayoutY}"
+                  prefWidth="${controller.propertyBinder.gridPanePrefWidth}"
+                  prefHeight="${controller.propertyBinder.gridPanePrefHeight}"
+                  hgap="${controller.propertyBinder.gridPaneHgap}"
+                  vgap="${controller.propertyBinder.gridPaneVGap}" />
    </children>
 </AnchorPane>

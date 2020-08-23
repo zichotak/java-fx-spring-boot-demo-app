@@ -6,6 +6,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.support.GenericConversionService;
 
+import com.ozich.javafxspringboot.binder.PropertyBinder;
 import com.ozich.javafxspringboot.controller.CalculatorController;
 import com.ozich.javafxspringboot.converter.StringToDoublePropertyConverter;
 import com.ozich.javafxspringboot.converter.StringToStringPropertyConverter;
@@ -29,6 +30,11 @@ public class ApplicationConfig {
     @Bean(name = "springFxmlLoader")
     public SpringFxmlLoader springFxmlLoader() {
         return new SpringFxmlLoader();
+    }
+
+    @Bean(name = "propertyBinder")
+    public PropertyBinder propertyBinder() {
+        return new PropertyBinder();
     }
 
     @Bean(name = "stringToSimpleDoublePropertyConverter")

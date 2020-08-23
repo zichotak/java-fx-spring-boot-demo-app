@@ -26,6 +26,7 @@ public class SpringFxmlLoader {
     public Object load() {
         try {
             FXMLLoader loader = new FXMLLoader(chartResource.getURL());
+            // Allows java fx to recognize spring beans
             loader.setControllerFactory(clazz -> applicationContext.getBean(clazz));
 
             return loader.load();

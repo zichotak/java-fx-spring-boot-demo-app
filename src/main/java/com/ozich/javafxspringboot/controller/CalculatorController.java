@@ -3,121 +3,74 @@ package com.ozich.javafxspringboot.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+
+import com.ozich.javafxspringboot.binder.PropertyBinder;
 
 public class CalculatorController implements Initializable {
 
-    @Value("${fxml.calculator.button.layoutX}")
-    DoubleProperty layoutX;
+    private final Logger LOGGER = LoggerFactory.getLogger(CalculatorController.class);
 
-    @Value("${fxml.calculator.button.layoutY}")
-    DoubleProperty layoutY;
+    private static final int BUTTON_ROWS = 4;
+    private static final int BUTTON_COLUMNS = 4;
 
-    @Value("${fxml.calculator.button.prefWidth}")
-    DoubleProperty prefWidth;
-
-    @Value("${fxml.calculator.button.prefHeight}")
-    DoubleProperty prefHeight;
-
-    @Value("${fxml.calculator.window.height}")
-    double windowHeight;
-
-    @Value("${fxml.calculator.window.width}")
-    double windowWidth;
-
-    @Value("${fxml.calculator.button1.label}")
-    StringProperty string;
+    @Autowired
+    private PropertyBinder propertyBinder;
 
     @FXML
-    private Button button1;
+    private AnchorPane anchorPane;
+
+    @FXML
+    private TextField textField;
+
+    @FXML
+    private GridPane gridPane;
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
-        button1.layoutYProperty().unbind();
-        button1.layoutXProperty().unbind();
-        System.out.println("X class  " + layoutX);
-        System.out.println("X button " + button1.layoutXProperty());
-        System.out.println("Y class  " + layoutY);
-        System.out.println("Y button " + button1.layoutYProperty());
-        System.out.println();
+        textField.layoutXProperty().unbind();
+        textField.layoutYProperty().unbind();
+        gridPane.layoutXProperty().unbind();
+        gridPane.layoutYProperty().unbind();
+        gridPane.setPadding(new Insets(propertyBinder.getGridPanePadding()));
 
-        initButton1();
+        addButtons();
     }
 
-    private void initButton1() {
-        button1.setOnAction(actionEvent -> {
+    private void addButtons() {
 
-            button1.layoutYProperty().bind(layoutYProperty());
-            button1.layoutXProperty().bind(layoutXProperty());
-
-            if (layoutX.get() < (windowWidth - prefWidth.get())) {
-                layoutX.setValue(layoutX.get() + prefWidth.get());
-            } else {
-                layoutX.setValue(0);
+        for (int row = 0; row < BUTTON_ROWS; row++) {
+            for (int column = 0; column < BUTTON_COLUMNS; column++) {
+                Button button = new Button(String.valueOf(3*row + column));
+                button.setPrefSize(75,75);
+                initButton(button);
+                gridPane.add(button, column, row);
             }
 
-            if (layoutY.get() < (windowHeight - prefHeight.get())) {
-                layoutY.setValue(layoutY.get() + prefHeight.get());
-            } else {
-                layoutY.setValue(0);
-            }
+        }
+    }
 
-            button1.layoutYProperty().unbind();
-            button1.layoutXProperty().unbind();
-
-            System.out.println("Button 1 pressed");
-            System.out.println("X class  " + layoutX);
-            System.out.println("X button " + button1.layoutXProperty());
-            System.out.println("Y class  " + layoutY);
-            System.out.println("Y button " + button1.layoutYProperty());
-            System.out.println();
-
+    private void initButton(Button button) {
+        button.setOnAction(actionEvent -> {
+            LOGGER.info("Button number {} clicked", button.getText());
         });
     }
 
-    public double getLayoutX() {
-        return layoutX.get();
+    public PropertyBinder getPropertyBinder() {
+        return propertyBinder;
     }
 
-    public DoubleProperty layoutXProperty() {
-        return layoutX;
-    }
-
-    public double getLayoutY() {
-        return layoutY.get();
-    }
-
-    public DoubleProperty layoutYProperty() {
-        return layoutY;
-    }
-
-    public double getPrefWidth() {
-        return prefWidth.get();
-    }
-
-    public DoubleProperty prefWidthProperty() {
-        return prefWidth;
-    }
-
-    public double getPrefHeight() {
-        return prefHeight.get();
-    }
-
-    public DoubleProperty prefHeightProperty() {
-        return prefHeight;
-    }
-
-    public String getString() {
-        return string.get();
-    }
-
-    public StringProperty stringProperty() {
-        return string;
+    public void setPropertyBinder(PropertyBinder propertyBinder) {
+        this.propertyBinder = propertyBinder;
     }
 }
